@@ -1,0 +1,12 @@
+/dependencies/android/.idea/
+/.gitignore~
+/dependencies/android/src/org/haxe/extension/QRScan.java~
+/dependencies/android/src/com/journeyapps/barcodescanner/camera/CameraInstance.java~
+/dependencies/android/src/com/journeyapps/barcodescanner/DecoderThread.java~
+/dependencies/android/src/com/journeyapps/barcodescanner/ViewfinderView.java~
+/dependencies/android/src/com/journeyapps/barcodescanner/CameraPreview.java~
+/dependencies/android/src/com/journeyapps/barcodescanner/CaptureActivity.java~
+/dependencies/android/src/com/journeyapps/barcodescanner/CaptureManager.java~
+/dependencies/android/src/com/journeyapps/barcodescanner/CompoundBarcodeView.java~
+/dependencies/android/src/com/google/zxing/client/android/BeepManager.java~
+/dependencies/android/gen/
