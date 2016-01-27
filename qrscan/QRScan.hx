@@ -20,7 +20,7 @@ class QRScan {
 	#end
 
 	#if cpp
-	private static var qrscan_scan = Lib.load("barcode", "barcode_scan_barcode", 0);
+	private static var qrscan_scan = Lib.load("qrscan", "scan", 0);
 	#end
 
 	public static function Initialize() : Void {
