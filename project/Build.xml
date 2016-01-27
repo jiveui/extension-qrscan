@@ -10,6 +10,14 @@
 		<file name="common/QRScan.cpp"/>
 		
 	</files>
+
+	<files id="iphone">
+
+        <compilerflag value="-Iinclude"/>
+        <compilerflag value="-I../../extensionkit/project/include"/>
+        <file name="iphone/IPhone.mm"/>
+
+	</files>
 	
 	<set name="SLIBEXT" value=".lib" if="windows"/>
 	<set name="SLIBEXT" value=".a" unless="windows"/>
@@ -22,6 +30,7 @@
 		<outdir name="../ndll/${BINDIR}"/>
 		<ext value=".ndll" if="windows || mac || linux"/>
 		<files id="common"/>
+		<files id="iphone" if="iphone"/>
 		
 	</target>
 	
