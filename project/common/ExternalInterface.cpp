@@ -8,30 +8,31 @@
 
 
 #include <hx/CFFI.h>
-#include "Utils.h"
+#include "QRScan.h"
 
 
 using namespace qrscan;
 
 
 
-static value qrscan_sample_method (value inputValue) {
-	
-	int returnValue = SampleMethod(val_int(inputValue));
-	return alloc_int(returnValue);
-	
+static value qrscan_scan()
+{
+    return alloc_bool(Scan());
 }
-DEFINE_PRIM (qrscan_sample_method, 1);
+DEFINE_PRIM (qrscan_scan, 0);
 
 
 
-extern "C" void qrscan_main () {
-	
-	val_int(0); // Fix Neko init
-	
+extern "C" void qrscan_main ()
+{
+    val_int(0); // Fix Neko init
 }
-DEFINE_ENTRY_POINT (qrscan_main);
+DEFINE_ENTRY_POINT(qrscan_main);
 
 
 
-extern "C" int qrscan_register_prims () { return 0; }
+extern "C" int qrscan_register_prims()
+{
+    Initialize();
+    return 0;
+}

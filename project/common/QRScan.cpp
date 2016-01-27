@@ -1,14 +1,22 @@
-#include "Utils.h"
+#include "QRScan.h"
+#include "../iphone/IPhone.h"
 
 
-namespace qrscan {
-	
-	
-	int SampleMethod(int inputValue) {
-		
-		return inputValue * 100;
-		
-	}
-	
-	
+namespace qrscan
+{
+    void Initialize()
+    {
+        #ifdef IPHONE
+        iphone::InitializeIPhone();
+        #endif
+    }
+
+    bool Scan()
+    {
+        #ifdef IPHONE
+        return iphone::Scan();
+        #else
+        return false;
+        #endif
+    }
 }
