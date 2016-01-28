@@ -15,15 +15,17 @@ import openfl.utils.JNI;
 
 class QRScan {
 	
+	private static var qrscan_scan_jni : Dynamic;
+	private static var qrscan_scan : Dynamic;
 
 	public static function Initialize() : Void {
 		try {
 			#if android
-			private static var qrscan_scan_jni = JNI.createStaticMethod ("org.haxe.extension.QRScan", "scan", "()V");
+			qrscan_scan_jni = JNI.createStaticMethod ("org.haxe.extension.QRScan", "scan", "()V");
 			#end
 
 			#if cpp
-			private static var qrscan_scan = Lib.load("qrscan", "scan", 0);
+			qrscan_scan = Lib.load("qrscan", "scan", 0);
 			#end
 		} catch(e:Dynamic) {
 			trace(e);
