@@ -19,7 +19,7 @@
     <application>
         <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
                   android:clearTaskOnLaunch="true"
-                  android:screenOrientation="sensorLandscape"
+                  android:screenOrientation="sensorPortrait"
                   android:stateNotNeeded="true"
                   android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
