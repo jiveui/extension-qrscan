@@ -39,9 +39,9 @@ import org.haxe.extension.extensionkit.*;
 	function for performing a single task, like returning a value
 	back to Haxe from Java.
 */
-public class QRScan extends Extension {
+public class QRScanDecode extends Extension {
 
-	public static void scan () {
+	public static void decode() {
 
 		MobileDevice.DisableBackButton();
 
@@ -62,7 +62,7 @@ public class QRScan extends Extension {
 			Trace.Info(scanResult.getFormatName());
 			Trace.Info(scanResult.getContents());
 
-			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEvent",
+			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
 					new Object[]{
 							"scanned",
 							scanResult.getFormatName().replace('_', '-'),
@@ -71,7 +71,7 @@ public class QRScan extends Extension {
 		} else {
 			Trace.Info("Barcode scan cancelled or failed.");
 
-			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEvent",
+			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
 					new Object[]{
 							"cancelled"
 					});

@@ -3,7 +3,7 @@ package qrscan;
 import flash.events.Event;
 
 
-class QRScanEvent extends Event {
+class QRScanDecodeEvent extends Event {
     public static inline var BARCODE_SCANNED = "scanned";
     public static inline var BARCODE_SCAN_CANCELLED = "cancelled";
 
@@ -18,11 +18,11 @@ class QRScanEvent extends Event {
     }
 
 	public override function clone() : Event {
-		return new QRScanEvent(type, codeType, codeValue);
+		return new QRScanDecodeEvent(type, codeType, codeValue);
 	}
 
 	public override function toString() : String {
-        var s = "[QRScanEvent type=" + type;
+        var s = "[QRScanDecodeEvent type=" + type;
         if (type != BARCODE_SCAN_CANCELLED) {
             s += " codeType=" + codeType + " codeValue=" + codeValue;
         }
