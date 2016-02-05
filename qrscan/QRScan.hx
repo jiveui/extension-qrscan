@@ -29,7 +29,8 @@ class QRScan {
 			#end
 
 			#if cpp
-			qrscan_scan = Lib.load("qrscan", "scan", 0);
+			qrscan_scan = Lib.load("qrscan", "decode", 0);
+			qrscan_generate = Lib.load("qrscan", "encode", 4);
 			#end
 		} catch(e:Dynamic) {
 			trace(e);
@@ -60,7 +61,12 @@ class QRScan {
 		
 		#elseif (cpp && mobile)
 
-		qrscan_generate();
+		var t = 0;
+		switch(type) {
+			case "QR_CODE": t = 0;
+			case "EAN_13": t = 1;
+		} 
+		qrscan_generate(content, t, width, height);
 
 		#end
 

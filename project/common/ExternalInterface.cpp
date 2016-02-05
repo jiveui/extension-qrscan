@@ -15,12 +15,17 @@ using namespace qrscan;
 
 
 
-static value qrscan_scan()
+static value qrscan_decode()
 {
-    return alloc_bool(Scan());
+    return alloc_bool(Decode());
 }
-DEFINE_PRIM (qrscan_scan, 0);
+DEFINE_PRIM (qrscan_decode, 0);
 
+static value qrscan_encode(value content, value type, value width, value height)
+{
+    return alloc_bool(Encode(val_string(content), val_int(type), val_int(width), val_int(height)));
+}
+DEFINE_PRIM (qrscan_encode, 4);
 
 
 extern "C" void qrscan_main ()

@@ -7,7 +7,8 @@ namespace qrscan
     namespace iphone
     {
         void InitializeIPhone();
-        bool Scan();
+        bool Decode();
+        bool Encode(const char* content, int type, int width, int height);
     }
 }
 

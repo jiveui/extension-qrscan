@@ -11,10 +11,19 @@ namespace qrscan
         #endif
     }
 
-    bool Scan()
+    bool Decode()
     {
         #ifdef IPHONE
-        return iphone::Scan();
+        return iphone::Decode();
+        #else
+        return false;
+        #endif
+    }
+    
+    bool Encode(const char* content, int type, int width, int height)
+    {
+        #ifdef IPHONE
+        return iphone::Encode(content, type, width, height);
         #else
         return false;
         #endif
