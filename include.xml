@@ -6,7 +6,7 @@
 	<!-- Use the following for an Android Java extension, not needed otherwise -->
 	
 	<dependency name="qrscan" path="dependencies/android" if="android" />
-	<android extension="org.haxe.extension.QRScan" />
+	<android extension="org.haxe.extension.QRScanDecode" />
 
 	<include path="../extensionkit" />
 
