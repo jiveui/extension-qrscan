@@ -86,13 +86,29 @@ public class QRScanEncode extends Extension {
 					format = BarcodeFormat.CODABAR;
 					break;
 
+				case "EAN_8":
+					format = BarcodeFormat.EAN_8;
+					break;
+
 				case "EAN_13":
 					format = BarcodeFormat.EAN_13;
+					break;
+
+				case "AZTEC":
+					format = BarcodeFormat.AZTEC;
+					break;
+
+				case "CODE_39":
+					format = BarcodeFormat.CODE_39;
+					break;
+
+				case "CODE_93":
+					format = BarcodeFormat.CODE_93;
 					break;
 			}
 			BitMatrix matrix = new MultiFormatWriter().encode(content, format, width, height, hints);
 
-			MatrixToImageResult image = matrixToImage(matrix);
+			MatrixToImageResult image = matrixToImage(matrix, type);
 			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
 					new Object[]{
 							"generated",
@@ -105,7 +121,7 @@ public class QRScanEncode extends Extension {
 		}
 	}
 
-	private static MatrixToImageResult matrixToImage(BitMatrix matrix) {
+	private static MatrixToImageResult matrixToImage(BitMatrix matrix, String type) {
 		if (matrix != null) {
 			try {
 				int width = matrix.getWidth();
@@ -123,7 +139,7 @@ public class QRScanEncode extends Extension {
 				}
 				bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 
-				File file = new File(Extension.mainContext.getApplicationInfo().dataDir, "code.jpg");
+				File file = new File(Extension.mainContext.getApplicationInfo().dataDir, "code_" + type + ".jpg");
 				FileOutputStream out = new FileOutputStream(file);
 				if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)) {
 					out.flush();
