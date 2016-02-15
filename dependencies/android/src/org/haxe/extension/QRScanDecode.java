@@ -43,38 +43,44 @@ public class QRScanDecode extends Extension {
 
 	public static void decode() {
 
+		Trace.Info("QRScanDecode -> decode");
+
 		MobileDevice.DisableBackButton();
 
 		try {
-			new IntentIntegrator(Extension.mainActivity).initiateScan();
+			IntentIntegrator intentIntegrator = new IntentIntegrator(Extension.mainActivity);
+			intentIntegrator.setBeepEnabled(false);
+			intentIntegrator.initiateScan();
 		} catch (Exception e) {
-			Log.d("trace", e.toString());
+			e.printStackTrace();
 		}
 
 	}
 
 	@Override
 	public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+		try {
+			IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-		if (scanResult != null && scanResult.getContents() != null) {
-			Trace.Info("Barcode scan complete.");
-			Trace.Info(scanResult.getFormatName());
-			Trace.Info(scanResult.getContents());
+			if (scanResult != null && scanResult.getContents() != null) {
+				Trace.Info("Barcode scan complete.");
 
-			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
-					new Object[]{
-							"scanned",
-							scanResult.getFormatName().replace('_', '-'),
-							scanResult.getContents()
-					});
-		} else {
-			Trace.Info("Barcode scan cancelled or failed.");
+				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
+						new Object[]{
+								"scanned",
+								scanResult.getFormatName().replace('_', '-'),
+								scanResult.getContents()
+						});
+			} else {
+				Trace.Info("Barcode scan cancelled or failed.");
 
-			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
-					new Object[]{
-							"cancelled"
-					});
+				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
+						new Object[]{
+								"cancelled"
+						});
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return super.onActivityResult(requestCode, resultCode, data);
