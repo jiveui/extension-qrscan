@@ -43,7 +43,7 @@ static NSUInteger ApplicationSupportedInterfaceOrientationsForWindow(id self, SE
 	// do something useful with the barcode data
 	printf("Scanned barcode: type=%s, value=%s\n", [symbol.typeName UTF8String], [symbol.data UTF8String]);
 
-	extensionkit::DispatchEventToHaxe("qrscan.QRScanEvent",
+	extensionkit::DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
 									  extensionkit::CSTRING, "scanned",
 									  extensionkit::CSTRING, [symbol.typeName UTF8String],
 									  extensionkit::CSTRING, [symbol.data UTF8String],
@@ -57,7 +57,7 @@ static NSUInteger ApplicationSupportedInterfaceOrientationsForWindow(id self, SE
 {
 	printf("Barcode scanning cancelled.\n");
 
-	extensionkit::DispatchEventToHaxe("qrscan.QRScanEvent",
+	extensionkit::DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
 									  extensionkit::CSTRING, "cancelled",
 									  extensionkit::CEND);
 
