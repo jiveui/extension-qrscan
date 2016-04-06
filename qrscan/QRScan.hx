@@ -62,22 +62,17 @@ class QRScan {
 
 		#if android
 
-			qrscan_generate_jni(content, formatsToInt(type), width, height);
+			qrscan_generate_jni(content, formatToInt(type), width, height);
 		
 		#elseif (cpp && mobile)
 
-			var t = 0;
-			switch(type) {
-				case QR_CODE: t = 0;
-				case EAN_13: t = 1;
-			} 
-			qrscan_generate(content, t, width, height); // TODO fix it
+			qrscan_generate(content, formatToInt(type), width, height);
 
 		#end
 
 	}
 
-	static function formatsToInt(type: BarcodeFormat) : Int {
+	static function formatToInt(type: BarcodeFormat) : Int {
 		switch (type) {
 			case AZTEC: return 0;
 		    case CODABAR: return 1; 

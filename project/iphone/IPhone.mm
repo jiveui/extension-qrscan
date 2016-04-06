@@ -115,15 +115,77 @@ namespace qrscan
 		{
 			NSError *error = nil;
 			ZXBarcodeFormat format = kBarcodeFormatQRCode;
-			switch(type) {
-				case 0: // QR Code
-					format = kBarcodeFormatQRCode;
+			
+			switch (type) {
+				case 0:
+					format = kBarcodeFormatAztec;
 					break;
-					
-				case 1: // EAN-13
+
+				case 1:
+					format = kBarcodeFormatCodabar;
+					break;
+
+				case 2:
+					format = kBarcodeFormatCode39;
+					break;
+
+				case 3:
+					format = kBarcodeFormatCode93;
+					break;
+
+				case 4:
+					format = kBarcodeFormatCode128;
+					break;
+
+				case 5:
+					format = kBarcodeFormatDataMatrix;
+					break;
+
+				case 6:
+					format = kBarcodeFormatEan8;
+					break;
+
+				case 7:
 					format = kBarcodeFormatEan13;
 					break;
+
+				case 8:
+					format = kBarcodeFormatITF;
+					break;
+
+				case 9:
+					format = kBarcodeFormatMaxiCode;
+					break;
+
+				case 10:
+					format = kBarcodeFormatPDF417;
+					break;
+
+				case 11:
+					format = kBarcodeFormatQRCode;
+					break;
+
+				case 12:
+					format = kBarcodeFormatRSS14;
+					break;
+
+				case 13:
+					format = kBarcodeFormatRSSExpanded;
+					break;
+
+				case 14:
+					format = kBarcodeFormatUPCA;
+					break;
+
+				case 15:
+					format = kBarcodeFormatUPCE;
+					break;
+
+				case 16:
+					format = kBarcodeFormatUPCEANExtension;
+					break;
 			}
+
 			ZXMultiFormatWriter *writer = [ZXMultiFormatWriter writer];
 			ZXBitMatrix* result = [writer 
 				encode:[NSString stringWithFormat:@"%s", content]
