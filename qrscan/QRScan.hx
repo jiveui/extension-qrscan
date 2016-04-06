@@ -68,8 +68,8 @@ class QRScan {
 
 			var t = 0;
 			switch(type) {
-				case "QR_CODE": t = 0;
-				case "EAN_13": t = 1;
+				case QR_CODE: t = 0;
+				case EAN_13: t = 1;
 			} 
 			qrscan_generate(content, t, width, height); // TODO fix it
 
