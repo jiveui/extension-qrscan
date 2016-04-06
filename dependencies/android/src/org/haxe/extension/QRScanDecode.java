@@ -1,14 +1,7 @@
 package org.haxe.extension;
 
-
-import android.app.Activity;
-import android.content.res.AssetManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import com.google.zxing.integration.android.*;
 import org.haxe.extension.extensionkit.*;
 
@@ -68,7 +61,7 @@ public class QRScanDecode extends Extension {
 				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
 						new Object[]{
 								"scanned",
-								scanResult.getFormatName().replace('_', '-'),
+								scanResult.getFormatName(),
 								scanResult.getContents()
 						});
 			} else {

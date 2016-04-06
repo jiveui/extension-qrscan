@@ -1,29 +1,21 @@
 package org.haxe.extension;
 
 
-import android.app.Activity;
-import android.content.res.AssetManager;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.integration.android.*;
-import org.haxe.extension.extensionkit.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
+
+import org.haxe.extension.extensionkit.*;
 
 
 /* 
@@ -64,7 +56,7 @@ public class QRScanEncode extends Extension {
 		}
 	}
 
-	public static void encode(java.lang.String content, java.lang.String type, int width, int height) {
+	public static void encode(java.lang.String content, int type, int width, int height) {
 
 		MobileDevice.DisableBackButton();
 
@@ -74,45 +66,81 @@ public class QRScanEncode extends Extension {
 			Map<EncodeHintType, Object> hints = new HashMap<>();
 			BarcodeFormat format = BarcodeFormat.QR_CODE;
 			switch (type) {
-				case "QR_CODE":
-					format = BarcodeFormat.QR_CODE;
-					break;
-
-				case "CODE_128":
-					format = BarcodeFormat.CODE_128;
-					break;
-
-				case "CODABAR":
-					format = BarcodeFormat.CODABAR;
-					break;
-
-				case "EAN_8":
-					format = BarcodeFormat.EAN_8;
-					break;
-
-				case "EAN_13":
-					format = BarcodeFormat.EAN_13;
-					break;
-
-				case "AZTEC":
+				case 0:
 					format = BarcodeFormat.AZTEC;
 					break;
 
-				case "CODE_39":
+				case 1:
+					format = BarcodeFormat.CODABAR;
+					break;
+
+				case 2:
 					format = BarcodeFormat.CODE_39;
 					break;
 
-				case "CODE_93":
+				case 3:
 					format = BarcodeFormat.CODE_93;
+					break;
+
+				case 4:
+					format = BarcodeFormat.CODE_128;
+					break;
+
+				case 5:
+					format = BarcodeFormat.DATA_MATRIX;
+					break;
+
+				case 6:
+					format = BarcodeFormat.EAN_8;
+					break;
+
+				case 7:
+					format = BarcodeFormat.EAN_13;
+					break;
+
+				case 8:
+					format = BarcodeFormat.ITF;
+					break;
+
+				case 9:
+					format = BarcodeFormat.MAXICODE;
+					break;
+
+				case 10:
+					format = BarcodeFormat.PDF_417;
+					break;
+
+				case 11:
+					format = BarcodeFormat.QR_CODE;
+					break;
+
+				case 12:
+					format = BarcodeFormat.RSS_14;
+					break;
+
+				case 13:
+					format = BarcodeFormat.RSS_EXPANDED;
+					break;
+
+				case 14:
+					format = BarcodeFormat.UPC_A;
+					break;
+
+				case 15:
+					format = BarcodeFormat.UPC_E;
+					break;
+
+				case 16:
+					format = BarcodeFormat.UPC_EAN_EXTENSION;
 					break;
 			}
 			BitMatrix matrix = new MultiFormatWriter().encode(content, format, width, height, hints);
 
-			MatrixToImageResult image = matrixToImage(matrix, type);
+			MatrixToImageResult image = matrixToImage(matrix, format);
 			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
 					new Object[]{
 							"generated",
-							type,
+							format.toString(),
 							image.result,
 							image.path
 					});
@@ -121,7 +149,7 @@ public class QRScanEncode extends Extension {
 		}
 	}
 
-	private static MatrixToImageResult matrixToImage(BitMatrix matrix, String type) {
+	private static MatrixToImageResult matrixToImage(BitMatrix matrix, BarcodeFormat type) {
 		if (matrix != null) {
 			try {
 				int width = matrix.getWidth();
@@ -139,7 +167,7 @@ public class QRScanEncode extends Extension {
 				}
 				bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 
-				File file = new File(Extension.mainContext.getApplicationInfo().dataDir, "code_" + type + ".jpg");
+				File file = new File(Extension.mainContext.getApplicationInfo().dataDir, "code_" + type.toString() + ".jpg");
 				FileOutputStream out = new FileOutputStream(file);
 				if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)) {
 					out.flush();
