@@ -144,7 +144,11 @@ public class QRScanEncode extends Extension {
 				}
 			});
 		} catch (Exception e) {
-			Log.d("trace", e.toString());
+//			Extension.callbackHandler.post(new Runnable() {
+//				@Override public void run() {
+//					callback.call("error", new Object[] { e.toString() });
+//				}
+//			});
 		}
 	}
 

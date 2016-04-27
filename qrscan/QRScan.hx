@@ -27,7 +27,7 @@ class QRScan {
 		try {
 			#if android
 
-				qrscan_scan_jni = JNI.createStaticMethod("org/haxe/extension/QRScanDecode", "decode", "()V");
+				qrscan_scan_jni = JNI.createStaticMethod("org/haxe/extension/QRScanDecode", "decode", "(Lorg/haxe/lime/HaxeObject;)V");
 				qrscan_generate_jni = JNI.createStaticMethod("org/haxe/extension/QRScanEncode", "encode", "(Ljava/lang/String;IIILorg/haxe/lime/HaxeObject;)V");
 			
 			#end
@@ -49,7 +49,7 @@ class QRScan {
 
 		#if android
 
-			qrscan_scan_jni();
+			qrscan_scan_jni(new QRScanEventDispatcher());
 		
 		#elseif (cpp && mobile)
 

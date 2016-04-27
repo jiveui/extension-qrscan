@@ -3,8 +3,8 @@ package org.haxe.extension;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.zxing.integration.android.*;
-import org.haxe.extension.extensionkit.*;
 
+import org.haxe.lime.HaxeObject;
 
 /* 
 	You can use the Android Extension class in order to hook
@@ -34,11 +34,13 @@ import org.haxe.extension.extensionkit.*;
 */
 public class QRScanDecode extends Extension {
 
-	public static void decode() {
+	static HaxeObject haxeCallback;
 
-		Trace.Info("QRScanDecode -> decode");
+	public static void decode(HaxeObject callback) {
 
-		MobileDevice.DisableBackButton();
+//		Trace.Info("QRScanDecode -> decode");
+
+		haxeCallback = callback;
 
 		try {
 			IntentIntegrator intentIntegrator = new IntentIntegrator(Extension.mainActivity);
@@ -53,27 +55,35 @@ public class QRScanDecode extends Extension {
 	@Override
 	public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
 		try {
-			IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+			final IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
 			if (scanResult != null && scanResult.getContents() != null) {
-				Trace.Info("Barcode scan complete.");
+//				Trace.Info("Barcode scan complete.");
 
-				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
-						new Object[]{
-								"scanned",
+				Extension.callbackHandler.post(new Runnable() {
+					@Override public void run() {
+						haxeCallback.call("decodeSuccess", new Object[] {
 								scanResult.getFormatName(),
 								scanResult.getContents()
 						});
+					}
+				});
 			} else {
-				Trace.Info("Barcode scan cancelled or failed.");
+//				Trace.Info("Barcode scan cancelled or failed.");
 
-				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
-						new Object[]{
-								"cancelled"
-						});
+				Extension.callbackHandler.post(new Runnable() {
+					@Override public void run() {
+						haxeCallback.call("error", new Object[] { "Barcode scan cancelled or failed" });
+					}
+				});
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+//			Extension.callbackHandler.post(new Runnable() {
+//				@Override public void run() {
+//					haxeCallback.call("error", new Object[] { e.toString() });
+//				}
+//			});
 		}
 
 		return super.onActivityResult(requestCode, resultCode, data);
@@ -128,7 +138,7 @@ public class QRScanDecode extends Extension {
 	 */
 	public void onResume () {
 
-		MobileDevice.EnableBackButton();
+
 		
 	}
 	
