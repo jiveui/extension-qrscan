@@ -15,8 +15,7 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.haxe.extension.extensionkit.*;
-
+import org.haxe.lime.HaxeObject;
 
 /* 
 	You can use the Android Extension class in order to hook
@@ -46,6 +45,9 @@ import org.haxe.extension.extensionkit.*;
 */
 public class QRScanEncode extends Extension {
 
+	static BarcodeFormat format = null;
+	static MatrixToImageResult image = null;
+
 	public static class MatrixToImageResult {
 		public Boolean result;
 		public String path;
@@ -56,15 +58,11 @@ public class QRScanEncode extends Extension {
 		}
 	}
 
-	public static void encode(java.lang.String content, int type, int width, int height) {
-
-		MobileDevice.DisableBackButton();
+	public static void encode(java.lang.String content, int type, int width, int height, final HaxeObject callback) {
 
 		try {
-			Trace.Info(type + " generation start");
-
 			Map<EncodeHintType, Object> hints = new HashMap<>();
-			BarcodeFormat format = BarcodeFormat.QR_CODE;
+
 			switch (type) {
 				case 0:
 					format = BarcodeFormat.AZTEC;
@@ -136,14 +134,15 @@ public class QRScanEncode extends Extension {
 			}
 			BitMatrix matrix = new MultiFormatWriter().encode(content, format, width, height, hints);
 
-			MatrixToImageResult image = matrixToImage(matrix, format);
-			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
-					new Object[]{
-							"generated",
+			image = matrixToImage(matrix, format);
+			Extension.callbackHandler.post(new Runnable() {
+				@Override public void run() {
+					callback.call("encodeSuccess", new Object[] {
 							format.toString(),
-							image.result,
 							image.path
 					});
+				}
+			});
 		} catch (Exception e) {
 			Log.d("trace", e.toString());
 		}
@@ -231,7 +230,7 @@ public class QRScanEncode extends Extension {
 	 */
 	public void onResume () {
 
-		MobileDevice.EnableBackButton();
+
 		
 	}
 	

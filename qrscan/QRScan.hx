@@ -1,6 +1,7 @@
 package qrscan;
 
 import qrscan.BarcodeFormat;
+import qrscan.QRScanEncodeEvent;
 import extensionkit.ExtensionKit;
 import haxe.Utf8;
 
@@ -27,7 +28,7 @@ class QRScan {
 			#if android
 
 				qrscan_scan_jni = JNI.createStaticMethod("org/haxe/extension/QRScanDecode", "decode", "()V");
-				qrscan_generate_jni = JNI.createStaticMethod("org/haxe/extension/QRScanEncode", "encode", "(Ljava/lang/String;III)V");
+				qrscan_generate_jni = JNI.createStaticMethod("org/haxe/extension/QRScanEncode", "encode", "(Ljava/lang/String;IIILorg/haxe/lime/HaxeObject;)V");
 			
 			#end
 
@@ -62,7 +63,7 @@ class QRScan {
 
 		#if android
 
-			qrscan_generate_jni(content, formatToInt(type), width, height);
+			qrscan_generate_jni(content, formatToInt(type), width, height, new QRScanEventDispatcher());
 		
 		#elseif (cpp && mobile)
 
