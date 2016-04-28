@@ -8,7 +8,7 @@
 	<dependency name="qrscan" path="dependencies/android" if="android" />
 	<android extension="org.haxe.extension.QRScan" />
 
-	<!-- <include path="../extensionkit" /> -->
+	<include path="../extensionkit" />
 
 	<dependency name="iconv" if="ios" />
 	<dependency name="CoreMedia.framework" if="ios" />
