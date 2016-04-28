@@ -10,4 +10,5 @@
 /dependencies/android/src/com/journeyapps/barcodescanner/CompoundBarcodeView.java~
 /dependencies/android/src/com/google/zxing/client/android/BeepManager.java~
 /dependencies/android/gen/
-/sample/Export
+/sample/Export/
+project/obj/*

@@ -6,10 +6,9 @@
 	<!-- Use the following for an Android Java extension, not needed otherwise -->
 	
 	<dependency name="qrscan" path="dependencies/android" if="android" />
-	<android extension="org.haxe.extension.QRScanDecode" />
-	<android extension="org.haxe.extension.QRScanEncode" />
+	<android extension="org.haxe.extension.QRScan" />
 
-	<include path="../extensionkit" />
+	<!-- <include path="../extensionkit" /> -->
 
 	<dependency name="iconv" if="ios" />
 	<dependency name="CoreMedia.framework" if="ios" />

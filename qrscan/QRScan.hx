@@ -2,7 +2,6 @@ package qrscan;
 
 import qrscan.BarcodeFormat;
 import qrscan.QRScanEvent;
-import extensionkit.ExtensionKit;
 import haxe.Utf8;
 
 #if cpp
@@ -41,8 +40,7 @@ class QRScan {
 		} catch(e:Dynamic) {
 			trace(e);
 		}
-
-		ExtensionKit.Initialize();
+		
 	}
 
 	public static function scan() {

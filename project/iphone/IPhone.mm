@@ -198,8 +198,8 @@ namespace qrscan
 				// Write to JPEG
 				int dataLength;
 				FILE* tempFile;
-				const void* data = extensionkit::iphone::UIImageAsPNGBytes(uiImage, &dataLength);
-				const char* tempFilePath = extensionkit::CreateTemporaryFile(&tempFile);
+				const void* data = /*extensionkit::iphone::*/UIImageAsPNGBytes(uiImage, &dataLength);
+				const char* tempFilePath = /*extensionkit::*/CreateTemporaryFile(&tempFile);
 
 				if (tempFilePath != NULL)
 				{	
@@ -223,5 +223,47 @@ namespace qrscan
 			
 			return true;
 		}
+
+		const char* CreateTemporaryFile(FILE** outFp)
+        {
+            NSString* tempFileTemplate = [NSTemporaryDirectory() stringByAppendingPathComponent:@"extensionkit.XXXXXX"];
+            strcpy(g_filePathBuffer, [tempFileTemplate fileSystemRepresentation]);
+            int fileDescriptor = mkstemp(g_filePathBuffer);
+         
+            if (fileDescriptor == -1)
+            {
+                if (outFp)
+                {
+                    *outFp = NULL;
+                }
+                
+                return NULL;
+            }
+         
+            if (outFp != NULL)
+            {
+                *outFp = fdopen(fileDescriptor, "w+");
+            }
+            else
+            {
+                close(fileDescriptor);
+            }
+            
+            return g_filePathBuffer;
+        }
+
+        const void* UIImageAsPNGBytes(UIImage* src, int* outLength)
+        {
+            NSData* imageAsPNG = UIImagePNGRepresentation(src);
+            int dataLength = [imageAsPNG length];
+            const void* data = [imageAsPNG bytes];
+            
+            if (outLength)
+            {
+                *outLength = dataLength;
+            }
+            
+            return data;
+        }
 	}
 }
