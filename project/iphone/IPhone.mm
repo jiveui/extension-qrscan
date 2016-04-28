@@ -44,7 +44,7 @@ extern "C" void sendCallback(const char* type, const char* format, const char* d
 	// do something useful with the barcode data
 	printf("Scanned barcode: type=%s, value=%s\n", [symbol.typeName UTF8String], [symbol.data UTF8String]);
 
-	sendCallback("scanned", [format UTF8String], [symbol.data UTF8String]);
+	sendCallback("scanned", [symbol.typeName UTF8String], [symbol.data UTF8String]);
 
 	// dismiss with a slight delay to avoid conflicting with the reader view still updating
 	[self performSelector:@selector(dismissReader:) withObject:reader afterDelay:1.0f];
@@ -213,7 +213,7 @@ namespace qrscan
 				{
 					printf("Saving failed: ERROR! Unable to create temporary file.\n");
 
-				    sendCallback("generate_saving_error", [format UTF8String], [tempFilePath UTF8String]);
+				    sendCallback("generate_saving_error", [format UTF8String], tempFilePath);
 				}
 			} else {
 				printf("Encoding failed");
