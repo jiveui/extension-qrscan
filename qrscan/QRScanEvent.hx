@@ -3,9 +3,10 @@ package qrscan;
 import flash.events.Event;
 
 
-class QRScanDecodeEvent extends Event {
+class QRScanEvent extends Event {
     public static inline var BARCODE_SCANNED = "scanned";
     public static inline var BARCODE_SCAN_CANCELLED = "cancelled";
+    public static inline var BARCODE_GENERATED = "generated";
 
     public var format(default, null) : String = null;
     public var data(default, null) : String = null;
@@ -18,6 +19,6 @@ class QRScanDecodeEvent extends Event {
     }
 
 	public override function clone() : Event {
-		return new QRScanDecodeEvent(type, format, data);
+		return new QRScanEvent(type, format, data);
 	}
 }

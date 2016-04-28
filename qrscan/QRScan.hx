@@ -1,7 +1,7 @@
 package qrscan;
 
 import qrscan.BarcodeFormat;
-import qrscan.QRScanEncodeEvent;
+import qrscan.QRScanEvent;
 import extensionkit.ExtensionKit;
 import haxe.Utf8;
 
@@ -34,8 +34,8 @@ class QRScan {
 
 			#if cpp
 
-				qrscan_scan = Lib.load("qrscan", "decode", 0);
-				qrscan_generate = Lib.load("qrscan", "encode", 4);
+				qrscan_scan = Lib.load("qrscan", "decode", 1);
+				qrscan_generate = Lib.load("qrscan", "encode", 5);
 			
 			#end
 		} catch(e:Dynamic) {
@@ -53,7 +53,7 @@ class QRScan {
 		
 		#elseif (cpp && mobile)
 
-			qrscan_scan();
+			qrscan_scan(QRScanEventDispatcher.notifyListeners);
 
 		#end
 
@@ -67,7 +67,7 @@ class QRScan {
 		
 		#elseif (cpp && mobile)
 
-			qrscan_generate(content, formatToInt(type), width, height);
+			qrscan_generate(content, formatToInt(type), width, height, QRScanEventDispatcher.notifyListeners);
 
 		#end
 

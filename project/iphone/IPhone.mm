@@ -20,6 +20,7 @@ static NSUInteger ApplicationSupportedInterfaceOrientationsForWindow(id self, SE
 	return UIInterfaceOrientationMaskAll;
 }
 
+extern "C" void sendCallback(const char* type, const char* format, const char* data);
 
 //
 // Delegate for notifications from the ZBar library.
@@ -43,11 +44,7 @@ static NSUInteger ApplicationSupportedInterfaceOrientationsForWindow(id self, SE
 	// do something useful with the barcode data
 	printf("Scanned barcode: type=%s, value=%s\n", [symbol.typeName UTF8String], [symbol.data UTF8String]);
 
-	extensionkit::DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
-									  extensionkit::CSTRING, "scanned",
-									  extensionkit::CSTRING, [symbol.typeName UTF8String],
-									  extensionkit::CSTRING, [symbol.data UTF8String],
-									  extensionkit::CEND);
+	sendCallback("scanned", [format UTF8String], [symbol.data UTF8String]);
 
 	// dismiss with a slight delay to avoid conflicting with the reader view still updating
 	[self performSelector:@selector(dismissReader:) withObject:reader afterDelay:1.0f];
@@ -57,9 +54,7 @@ static NSUInteger ApplicationSupportedInterfaceOrientationsForWindow(id self, SE
 {
 	printf("Barcode scanning cancelled.\n");
 
-	extensionkit::DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
-									  extensionkit::CSTRING, "cancelled",
-									  extensionkit::CEND);
+	sendCallback("cancelled", "", "");
 
 	[self dismissReader:reader];
 }
@@ -212,33 +207,18 @@ namespace qrscan
 				    fwrite(data, 1, dataLength, tempFile);
 				    fclose(tempFile);
 
-					extensionkit::DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
-												  extensionkit::CSTRING, "generated",
-												  extensionkit::CINT, type,
-												  extensionkit::CINT, 1,
-												  extensionkit::CSTRING, tempFilePath,
-												  extensionkit::CEND);
+				    sendCallback("generated", [format UTF8String], tempFilePath);
 				}
 				else
 				{
 					printf("Saving failed: ERROR! Unable to create temporary file.\n");
 
-					extensionkit::DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
-												  extensionkit::CSTRING, "generated",
-												  extensionkit::CINT, type,
-												  extensionkit::CINT, 0,
-												  extensionkit::CSTRING, tempFilePath,
-												  extensionkit::CEND);
+				    sendCallback("generate_saving_error", [format UTF8String], [tempFilePath UTF8String]);
 				}
 			} else {
 				printf("Encoding failed");
 
-				extensionkit::DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
-										  extensionkit::CSTRING, "generated",
-										  extensionkit::CINT, type,
-										  extensionkit::CINT, 0,
-										  extensionkit::CSTRING, "",
-										  extensionkit::CEND);
+				sendCallback("generate_encoding_error", [format UTF8String], "");
 			}
 			
 			return true;
