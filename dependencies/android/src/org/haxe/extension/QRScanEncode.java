@@ -61,8 +61,6 @@ public class QRScanEncode extends Extension {
 		MobileDevice.DisableBackButton();
 
 		try {
-			Trace.Info(type + " generation start");
-
 			Map<EncodeHintType, Object> hints = new HashMap<>();
 			BarcodeFormat format = BarcodeFormat.QR_CODE;
 			switch (type) {
@@ -134,6 +132,7 @@ public class QRScanEncode extends Extension {
 					format = BarcodeFormat.UPC_EAN_EXTENSION;
 					break;
 			}
+			Trace.Info(format.toString() + " generation start");
 			BitMatrix matrix = new MultiFormatWriter().encode(content, format, width, height, hints);
 
 			MatrixToImageResult image = matrixToImage(matrix, format);
