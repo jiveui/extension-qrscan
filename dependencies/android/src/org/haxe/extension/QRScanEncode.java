@@ -137,11 +137,10 @@ public class QRScanEncode extends Extension {
 			BitMatrix matrix = new MultiFormatWriter().encode(content, format, width, height, hints);
 
 			MatrixToImageResult image = matrixToImage(matrix, format);
-			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
+			HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEvent",
 					new Object[]{
 							"generated",
 							format.toString(),
-							image.result,
 							image.path
 					});
 		} catch (Exception e) {

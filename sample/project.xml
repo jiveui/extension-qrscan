@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="QrscanSample" package="com.qrscan.sample" version="1.0.0" company="Company Name" />
+	<app main="com.qrscan.sample.Main" path="Export" file="QrscanSample" />
+	
+	<source path="Source" />
+
+	<!-- <set name="lime-legacy"/> -->
+    <!-- <set name="openfl-legacy"/> -->
+    
+    <include path="../../extension-qrscan"/>
+    
+    <haxelib name="openfl" />
+	
+</project>

@@ -10,6 +10,5 @@
 /dependencies/android/src/com/journeyapps/barcodescanner/CompoundBarcodeView.java~
 /dependencies/android/src/com/google/zxing/client/android/BeepManager.java~
 /dependencies/android/gen/
-/project/obj
-/qrscan.sublime-project
-/qrscan.sublime-workspace
+/sample/Export/
+project/obj/*

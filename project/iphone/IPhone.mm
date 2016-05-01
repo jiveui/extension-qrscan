@@ -43,7 +43,7 @@ static NSUInteger ApplicationSupportedInterfaceOrientationsForWindow(id self, SE
 	// do something useful with the barcode data
 	printf("Scanned barcode: type=%s, value=%s\n", [symbol.typeName UTF8String], [symbol.data UTF8String]);
 
-	extensionkit::DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
+	extensionkit::DispatchEventToHaxe("qrscan.QRScanEvent",
 									  extensionkit::CSTRING, "scanned",
 									  extensionkit::CSTRING, [symbol.typeName UTF8String],
 									  extensionkit::CSTRING, [symbol.data UTF8String],
@@ -57,7 +57,7 @@ static NSUInteger ApplicationSupportedInterfaceOrientationsForWindow(id self, SE
 {
 	printf("Barcode scanning cancelled.\n");
 
-	extensionkit::DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
+	extensionkit::DispatchEventToHaxe("qrscan.QRScanEvent",
 									  extensionkit::CSTRING, "cancelled",
 									  extensionkit::CEND);
 
@@ -212,10 +212,9 @@ namespace qrscan
 				    fwrite(data, 1, dataLength, tempFile);
 				    fclose(tempFile);
 
-					extensionkit::DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
+					extensionkit::DispatchEventToHaxe("qrscan.QRScanEvent",
 												  extensionkit::CSTRING, "generated",
 												  extensionkit::CINT, type,
-												  extensionkit::CINT, 1,
 												  extensionkit::CSTRING, tempFilePath,
 												  extensionkit::CEND);
 				}
@@ -223,20 +222,18 @@ namespace qrscan
 				{
 					printf("Saving failed: ERROR! Unable to create temporary file.\n");
 
-					extensionkit::DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
+					extensionkit::DispatchEventToHaxe("qrscan.QRScanEvent",
 												  extensionkit::CSTRING, "generated",
 												  extensionkit::CINT, type,
-												  extensionkit::CINT, 0,
 												  extensionkit::CSTRING, tempFilePath,
 												  extensionkit::CEND);
 				}
 			} else {
 				printf("Encoding failed");
 
-				extensionkit::DispatchEventToHaxe("qrscan.QRScanEncodeEvent",
+				extensionkit::DispatchEventToHaxe("qrscan.QRScanEvent",
 										  extensionkit::CSTRING, "generated",
 										  extensionkit::CINT, type,
-										  extensionkit::CINT, 0,
 										  extensionkit::CSTRING, "",
 										  extensionkit::CEND);
 			}

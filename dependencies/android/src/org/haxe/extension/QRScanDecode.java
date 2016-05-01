@@ -58,7 +58,7 @@ public class QRScanDecode extends Extension {
 			if (scanResult != null && scanResult.getContents() != null) {
 				Trace.Info("Barcode scan complete.");
 
-				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
+				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEvent",
 						new Object[]{
 								"scanned",
 								scanResult.getFormatName(),
@@ -67,7 +67,7 @@ public class QRScanDecode extends Extension {
 			} else {
 				Trace.Info("Barcode scan cancelled or failed.");
 
-				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanDecodeEvent",
+				HaxeCallback.DispatchEventToHaxe("qrscan.QRScanEvent",
 						new Object[]{
 								"cancelled"
 						});
