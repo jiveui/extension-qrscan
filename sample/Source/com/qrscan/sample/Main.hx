@@ -25,23 +25,23 @@ class Main extends Sprite {
         button.graphics.endFill();
         button.x = button.y = 20;
         button.addEventListener(MouseEvent.CLICK, onClick);
-        var caption: TextField = new TextField();
-        caption.text = "SCAN";
-        caption.x = 100;
-        caption.y = 20;
+        // var caption: TextField = new TextField();
+        // caption.text = "SCAN";
+        // caption.x = 100;
+        // caption.y = 20;
 
-        button.addChild(caption);
+        // button.addChild(caption);
         addChild(button);
 
-        var text : TextField = new TextField();
-        text.text = "Result: ";
-        text.x = 20;
-        text.y = 200;
-        var tf = new TextFormat();
-        tf.size = 36;
-        text.defaultTextFormat = tf;
-        text.autoSize = openfl.text.TextFieldAutoSize.LEFT;
-        addChild(text);
+        // var text : TextField = new TextField();
+        // text.text = "Result: ";
+        // text.x = 20;
+        // text.y = 200;
+        // var tf = new TextFormat();
+        // tf.size = 36;
+        // text.defaultTextFormat = tf;
+        // text.autoSize = openfl.text.TextFieldAutoSize.LEFT;
+        // addChild(text);
 
         var button2 : Sprite = new Sprite();
         button2.graphics.beginFill(0x90C3D4);
@@ -50,17 +50,17 @@ class Main extends Sprite {
         button2.x = 20;
         button2.y = 300;
         button2.addEventListener(MouseEvent.CLICK, onClick2);
-        var caption2: TextField = new TextField();
-        caption2.text = "GENERATE";
-        caption2.x = 100;
-        caption2.y = 300;
+        // var caption2: TextField = new TextField();
+        // caption2.text = "GENERATE";
+        // caption2.x = 100;
+        // caption2.y = 300;
 
-        button2.addChild(caption2);
+        // button2.addChild(caption2);
         addChild(button2);
 
  
 		
-		stage.addEventListener(QRScanEvent.BARCODE_SCANNED, function(e) { trace(e); text.text = "Result: " + e.data; } );
+		stage.addEventListener(QRScanEvent.BARCODE_SCANNED, function(e) { trace(e); /*text.text = "Result: " + e.data;*/ } );
         stage.addEventListener(QRScanEvent.BARCODE_SCAN_CANCELLED, function(e) { trace(e); });
         stage.addEventListener(QRScanEvent.BARCODE_GENERATED, function(e) { trace(e); loadImage(e.data); });
 
