@@ -58,8 +58,6 @@ public class QRScanEncode extends Extension {
 
 	public static void encode(java.lang.String content, int type, int width, int height) {
 
-		MobileDevice.DisableBackButton();
-
 		try {
 			Map<EncodeHintType, Object> hints = new HashMap<>();
 			BarcodeFormat format = BarcodeFormat.QR_CODE;
@@ -229,8 +227,8 @@ public class QRScanEncode extends Extension {
 	 */
 	public void onResume () {
 
-		MobileDevice.EnableBackButton();
-		
+
+
 	}
 	
 	

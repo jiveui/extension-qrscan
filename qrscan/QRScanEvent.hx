@@ -21,4 +21,8 @@ class QRScanEvent extends Event {
 	public override function clone() : Event {
 		return new QRScanEvent(type, format, data);
 	}
+
+    public override function toString() : String {
+        return "[QRScanEvent type=" + type + " format=" + format + " data=" + data + "]";
+    }
 }
